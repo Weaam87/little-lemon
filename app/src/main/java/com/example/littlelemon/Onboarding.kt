@@ -1,9 +1,13 @@
 package com.example.littlelemon
 
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -17,23 +21,34 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Onboarding() {
+fun Onboarding(navController: NavHostController) {
+
+    val context = LocalContext.current
+    var firstName by remember { mutableStateOf("") }
+    var lastName by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+
     Column(
         Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .background(Color.White)
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -66,8 +81,8 @@ fun Onboarding() {
             textAlign = TextAlign.Start
         )
         OutlinedTextField(
-            value = "",
-            onValueChange = { },
+            value = firstName,
+            onValueChange = { value -> firstName = value },
             label = { Text(text = stringResource(R.string.first_name)) },
             modifier = Modifier
                 .fillMaxWidth()
@@ -75,13 +90,14 @@ fun Onboarding() {
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFFF4CE14),
                 unfocusedBorderColor = Color(0xFF495E57),
-                focusedLabelColor = Color(0xFFF4CE14),
-                unfocusedLabelColor = Color(0xFF495E57)
+                focusedLabelColor = Color(0xFF495E57),
+                unfocusedLabelColor = Color(0xFF495E57),
+                textColor = Color(0xFF495E57)
             )
         )
         OutlinedTextField(
-            value = "",
-            onValueChange = { },
+            value = lastName,
+            onValueChange = { value -> lastName = value },
             label = { Text(text = stringResource(R.string.last_name)) },
             modifier = Modifier
                 .fillMaxWidth()
@@ -89,13 +105,14 @@ fun Onboarding() {
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFFF4CE14),
                 unfocusedBorderColor = Color(0xFF495E57),
-                focusedLabelColor = Color(0xFFF4CE14),
-                unfocusedLabelColor = Color(0xFF495E57)
+                focusedLabelColor = Color(0xFF495E57),
+                unfocusedLabelColor = Color(0xFF495E57),
+                textColor = Color(0xFF495E57)
             )
         )
         OutlinedTextField(
-            value = "",
-            onValueChange = { },
+            value = email,
+            onValueChange = { value -> email = value },
             label = { Text(text = stringResource(R.string.email)) },
             modifier = Modifier
                 .fillMaxWidth()
@@ -103,12 +120,23 @@ fun Onboarding() {
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFFF4CE14),
                 unfocusedBorderColor = Color(0xFF495E57),
-                focusedLabelColor = Color(0xFFF4CE14),
-                unfocusedLabelColor = Color(0xFF495E57)
+                focusedLabelColor = Color(0xFF495E57),
+                unfocusedLabelColor = Color(0xFF495E57),
+                textColor = Color(0xFF495E57)
             )
         )
         Button(
-            onClick = {},
+            onClick = {
+                if(firstName.isBlank() || lastName.isBlank() || email.isBlank()) {
+                    val message = context.getString(R.string.unsuccessful)
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                } else {
+                    val message = context.getString(R.string.successful)
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                    saveUserData(context, firstName, lastName, email)
+                    navController.navigate(Home.route)
+                }
+            },
             shape = RoundedCornerShape(30),
             modifier = Modifier
                 .padding(16.dp, 32.dp)
@@ -127,9 +155,20 @@ fun Onboarding() {
     }
 }
 
+fun saveUserData(context: Context, firstName: String, lastName: String, email: String) {
+    val sharedPreferences = context.getSharedPreferences("little_lemon", MODE_PRIVATE)
+    val editor = sharedPreferences.edit()
+    editor.putString("firstName", firstName)
+    editor.putString("lastName", lastName)
+    editor.putString("email", email)
+    editor.apply()
+}
 
-@Preview
-@Composable
-fun OnboardingPreview() {
-    Onboarding()
+fun userDataAvailable(context: Context): Boolean {
+    val sharedPreferences = context.getSharedPreferences("little_lemon", MODE_PRIVATE)
+    val firstName = sharedPreferences.getString("firstName", null)
+    val lastName = sharedPreferences.getString("lastName", null)
+    val email = sharedPreferences.getString("email", null)
+
+    return firstName != null && lastName != null && email != null
 }
