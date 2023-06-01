@@ -170,10 +170,8 @@ fun ProfileScreen(navController: NavHostController) {
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                 navController.navigate(
                     route = Onboarding.route
-                ) {
-                    // Pop up the back stack and exit the app
-                    launchSingleTop = true
-                    popUpTo(Onboarding.route) {
+                ){
+                    popUpTo(navController.graph.startDestinationId) {
                         inclusive = true
                     }
                 }

@@ -136,7 +136,11 @@ fun Onboarding(navController: NavHostController) {
                     val message = context.getString(R.string.successful)
                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                     saveUserData(context, firstName, lastName, email)
-                    navController.navigate(Home.route)
+                    navController.navigate(Home.route) {
+                        popUpTo(navController.graph.startDestinationId) {
+                            inclusive = true
+                        }
+                    }
                 }
             },
             shape = RoundedCornerShape(30),
