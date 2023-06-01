@@ -20,7 +20,7 @@ fun MyNavigation() {
             HomeScreen(navController)
         }
         composable(Profile.route) {
-
+            ProfileScreen(navController)
         }
         composable(Onboarding.route) {
             Onboarding(navController)

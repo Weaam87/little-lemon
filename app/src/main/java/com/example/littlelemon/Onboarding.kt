@@ -7,6 +7,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -125,9 +126,10 @@ fun Onboarding(navController: NavHostController) {
                 textColor = Color(0xFF495E57)
             )
         )
+        Spacer(Modifier.weight(1f)) // to move the button to the bottom of the screen
         Button(
             onClick = {
-                if(firstName.isBlank() || lastName.isBlank() || email.isBlank()) {
+                if (firstName.isBlank() || lastName.isBlank() || email.isBlank()) {
                     val message = context.getString(R.string.unsuccessful)
                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                 } else {

@@ -6,8 +6,9 @@
     <string name="last_name">Last name</string>
     <string name="email">Email</string>
     <string name="register">Register</string>
-    <string name="logout">Logout</string>
+    <string name="logout">Log out</string>
     <string name="unsuccessful">Registration unsuccessful. Please enter all data</string>
     <string name="successful">Registration successful!</string>
     <string name="logout_successful">Logout successful!</string>
+    <string name="profile_information">Profile information</string>
 </resources>
