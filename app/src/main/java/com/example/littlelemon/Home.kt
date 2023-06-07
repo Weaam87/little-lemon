@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -60,6 +61,10 @@ fun HomeScreen(navController: NavHostController, menuItems: List<MenuItemRoom>) 
 
         // Display menu items
         Column(Modifier.padding(16.dp)) {
+            // Remove any existing items in the menuItemsState list before adding new items.
+            menuItemsState.clear()
+            // Add all the items from the provided menuItems list to the mutable state list
+            menuItemsState.addAll(menuItems)
             menuItemsState.forEach { menuItem ->
                 MenuItem(item = menuItem)
                 Spacer(modifier = Modifier.height(16.dp))
@@ -71,57 +76,61 @@ fun HomeScreen(navController: NavHostController, menuItems: List<MenuItemRoom>) 
 
 @Composable
 fun HeroSection() {
-    Column(
+    Row(
         modifier = Modifier
             .background(Color(0xFF495E57))
             .fillMaxWidth()
             .padding(8.dp)
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Column(
-                modifier = Modifier
-                    .weight(0.7f)
-                    .padding(start = 16.dp, top = 8.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.restaurant_name),
-                    style = TextStyle(
-                        color = Color(0xFFF4CE14),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 50.sp,
-                        fontFamily = markazi_text_regular
-                    ),
-                    modifier = Modifier.padding(start = 8.dp, top = 8.dp)
-                )
-                Text(
-                    text = stringResource(R.string.city),
-                    style = TextStyle(
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 50.sp,
-                        fontFamily = markazi_text_regular
-                    ),
-                    modifier = Modifier.padding(start = 8.dp)
-                )
-                Text(
-                    text = stringResource(R.string.description),
-                    style = TextStyle(
-                        color = Color.White,
-                        fontSize = 14.sp,
-                        fontFamily = Karla_regular
-                    ),
-                    modifier = Modifier.padding(8.dp)
-                )
-            }
+        Column(
+            modifier = Modifier
+                .weight(0.65f)
+                .padding(start = 16.dp, top = 8.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.restaurant_name),
+                style = TextStyle(
+                    color = Color(0xFFF4CE14),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 50.sp,
+                    fontFamily = markazi_text_regular
+                ),
+                modifier = Modifier.padding(top = 8.dp)
+            )
+            Text(
+                text = stringResource(R.string.city),
+                style = TextStyle(
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 50.sp,
+                    fontFamily = markazi_text_regular
+                ),
+            )
+            Text(
+                text = stringResource(R.string.description),
+                style = TextStyle(
+                    color = Color.White,
+                    fontSize = 14.sp,
+                    fontFamily = Karla_regular
+                ),
+                modifier = Modifier.padding(8.dp)
+            )
+        }
+        Column(
+            modifier = Modifier
+                .weight(0.35f)
+                .padding(start = 16.dp, top = 8.dp)
+                .align(Alignment.CenterVertically),
+        ) {
             Image(
                 painter = painterResource(R.drawable.hero_image),
                 contentDescription = "Hero image",
                 modifier = Modifier
-                    .weight(0.3f)
                     .size(120.dp)
                     .padding(8.dp)
-                    .clip(shape = RoundedCornerShape(16.dp)),
-                contentScale = ContentScale.Crop
+                    .clip(shape = RoundedCornerShape(16.dp))
+                    .fillMaxSize(),
+                contentScale = ContentScale.Crop,
             )
         }
     }
