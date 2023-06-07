@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.littlelemon.ui.theme.Karla_regular
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,6 +71,7 @@ fun Onboarding(navController: NavHostController) {
             fontSize = 26.sp,
             color = Color.White,
             textAlign = TextAlign.Center,
+            fontFamily = Karla_regular
         )
         Text(
             text = stringResource(R.string.information),
@@ -79,7 +81,8 @@ fun Onboarding(navController: NavHostController) {
             fontSize = 18.sp,
             color = Color.Black,
             fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Start
+            textAlign = TextAlign.Start,
+            fontFamily = Karla_regular
         )
         OutlinedTextField(
             value = firstName,

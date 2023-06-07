@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun MyNavigation() {
+fun MyNavigation(menuItems: List<MenuItemRoom>) {
     val navController = rememberNavController()
     val context = LocalContext.current
     val startDestination = if (userDataAvailable(context)) Home.route else Onboarding.route
@@ -17,7 +17,7 @@ fun MyNavigation() {
         startDestination = startDestination
     ) {
         composable(Home.route) {
-            HomeScreen(navController)
+            HomeScreen(navController, menuItems)
         }
         composable(Profile.route) {
             ProfileScreen(navController)
