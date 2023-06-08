@@ -19,6 +19,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
@@ -62,7 +64,7 @@ fun HomeScreen(navController: NavHostController, menuItems: List<MenuItemRoom>) 
         if (LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE) {
             HeroSection()
         }
-
+        ButtonRow()
         // menu items section with scrolling
         Column(Modifier.verticalScroll(rememberScrollState())) {
             MenuItems(menuItems)
@@ -176,7 +178,7 @@ fun MenuItems(menuItems: List<MenuItemRoom>) {
         menuItems.forEach { item ->
             // Define the MenuItem Composable representing a single menu item.
             MenuItem(item)
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }
@@ -189,11 +191,12 @@ fun MenuItem(item: MenuItemRoom) {
             .fillMaxWidth()
             .border(
                 BorderStroke(
-                    width = 2.dp,
+                    width = 0.5.dp,
                     color = Color(0xFF495E57)
                 ),
                 shape = RoundedCornerShape(10.dp)
             )
+            .padding(4.dp)
     ) {
         Column(
             modifier = Modifier
@@ -204,8 +207,8 @@ fun MenuItem(item: MenuItemRoom) {
                 text = item.title,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp),
-                fontSize = 24.sp,
+                    .padding(start = 8.dp),
+                fontSize = 18.sp,
                 color = Color.Black,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Start,
@@ -215,9 +218,9 @@ fun MenuItem(item: MenuItemRoom) {
                 text = item.description,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp),
+                    .padding(start = 8.dp),
                 style = TextStyle(
-                    fontSize = 20.sp,
+                    fontSize = 14.sp,
                     color = Color(0xFF495E57)
                 )
             )
@@ -225,31 +228,98 @@ fun MenuItem(item: MenuItemRoom) {
                 text = "$${item.price}",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp),
-                fontSize = 24.sp,
+                    .padding(start = 8.dp),
+                fontSize = 16.sp,
                 color = Color.Black,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Start,
                 fontFamily = Karla_regular
             )
         }
-        Column(
+        //Use the GlideImage library to load images using the URL present in the menu item image attribute.
+        GlideImage(
+            model = item.image,
+            contentDescription = null,
             modifier = Modifier
-                .weight(0.35f)
+                .size(100.dp)
                 .padding(8.dp)
                 .fillMaxSize()
+                .aspectRatio(1f) // Maintain the aspect ratio of the image,
+                .clip(shape = RoundedCornerShape(16.dp)),
+            contentScale = ContentScale.Crop,
+        )
+
+    }
+}
+
+@Composable
+fun ButtonRow() {
+    Row(
+        modifier = Modifier
+            .padding(8.dp)
+    ) {
+        Button(
+            onClick = { /*TODO*/ },
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 4.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFFEDEFEE)
+            )
         ) {
-            //Use the GlideImage library to load images using the URL present in the menu item image attribute.
-            GlideImage(
-                model = item.image,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(200.dp)
-                    .padding(8.dp)
-                    .fillMaxSize()
-                    .aspectRatio(1f) // Maintain the aspect ratio of the image,
-                    .clip(shape = RoundedCornerShape(16.dp)),
-                contentScale = ContentScale.Crop,
+            Text(
+                text = stringResource(R.string.starters),
+                color = Color.Black,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+        Button(
+            onClick = { /*TODO*/ },
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 4.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFFEDEFEE)
+            )
+        ) {
+            Text(
+                text = stringResource(R.string.mains),
+                color = Color.Black,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+        Button(
+            onClick = { /*TODO*/ },
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 4.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFFEDEFEE)
+            )
+        ) {
+            Text(
+                text = stringResource(R.string.desserts),
+                color = Color.Black,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+        Button(
+            onClick = { /*TODO*/ },
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 4.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFFEDEFEE)
+            )
+        ) {
+            Text(
+                text = stringResource(R.string.sides),
+                color = Color.Black,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold
             )
         }
     }
