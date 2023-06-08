@@ -23,8 +23,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -254,73 +257,36 @@ fun MenuItem(item: MenuItemRoom) {
 
 @Composable
 fun ButtonRow() {
-    Row(
-        modifier = Modifier
-            .padding(8.dp)
-    ) {
-        Button(
-            onClick = { /*TODO*/ },
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = 4.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFEDEFEE)
-            )
-        ) {
-            Text(
-                text = stringResource(R.string.starters),
-                color = Color.Black,
-                fontSize = 10.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
-        Button(
-            onClick = { /*TODO*/ },
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = 4.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFEDEFEE)
-            )
-        ) {
-            Text(
-                text = stringResource(R.string.mains),
-                color = Color.Black,
-                fontSize = 10.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
-        Button(
-            onClick = { /*TODO*/ },
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = 4.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFEDEFEE)
-            )
-        ) {
-            Text(
-                text = stringResource(R.string.desserts),
-                color = Color.Black,
-                fontSize = 10.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
-        Button(
-            onClick = { /*TODO*/ },
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = 4.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFEDEFEE)
-            )
-        ) {
-            Text(
-                text = stringResource(R.string.sides),
-                color = Color.Black,
-                fontSize = 10.sp,
-                fontWeight = FontWeight.Bold
-            )
+    val categories = listOf(
+        stringResource(R.string.starters),
+        stringResource(R.string.mains),
+        stringResource(R.string.desserts),
+        stringResource(R.string.sides)
+    )
+    var selectedCategory by remember { mutableStateOf("") }
+
+    Row(modifier = Modifier.padding(8.dp)) {
+        categories.forEach { category ->
+            Button(
+                onClick = { selectedCategory = category },
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 4.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (category == selectedCategory) {
+                        Color(0xFF495E57)
+                    } else {
+                        Color(0xFFEDEFEE)
+                    }
+                )
+            ) {
+                Text(
+                    text = category,
+                    color = if (category == selectedCategory) Color.White else Color.Black,
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
     }
 }
