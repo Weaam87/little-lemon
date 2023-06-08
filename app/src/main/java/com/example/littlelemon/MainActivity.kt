@@ -68,7 +68,7 @@ class MainActivity : ComponentActivity() {
     private suspend fun getMenu(): List<MenuItemNetwork> {
         return try {
             val response: HttpResponse =
-                client.get("https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/menu.json")
+                client.get("https://raw.githubusercontent.com/Weaam87/App-capstone-data/main/menu.json")
             val menuNetwork: MenuNetwork = response.body()
             menuNetwork.menuItems
         } catch (e: Exception) {
