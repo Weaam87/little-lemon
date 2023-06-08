@@ -205,7 +205,7 @@ fun MenuItem(item: MenuItemRoom) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp),
-                fontSize = 18.sp,
+                fontSize = 24.sp,
                 color = Color.Black,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Start,
@@ -217,7 +217,7 @@ fun MenuItem(item: MenuItemRoom) {
                     .fillMaxWidth()
                     .padding(8.dp),
                 style = TextStyle(
-                    fontSize = 16.sp,
+                    fontSize = 20.sp,
                     color = Color(0xFF495E57)
                 )
             )
@@ -226,7 +226,7 @@ fun MenuItem(item: MenuItemRoom) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp),
-                fontSize = 18.sp,
+                fontSize = 24.sp,
                 color = Color.Black,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Start,
