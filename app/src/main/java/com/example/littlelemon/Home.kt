@@ -295,7 +295,7 @@ fun ButtonRow(
             ) {
                 Text(
                     text = category,
-                    color = if (category == selectedCategory) Color.White else Color.Black,
+                    color = if (category.lowercase(Locale.getDefault()) == selectedCategory) Color(0xFFF4CE14) else Color.Black,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold
                 )
