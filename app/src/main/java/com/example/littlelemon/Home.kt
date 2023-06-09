@@ -18,10 +18,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -29,15 +38,24 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key.Companion.Enter
+import androidx.compose.ui.input.key.Key.Companion.Tab
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -58,6 +76,8 @@ fun HomeScreen(navController: NavHostController, menuItems: List<MenuItemRoom>) 
 
     // Define the selectedCategory variable in the outer scope
     var selectedCategory by remember { mutableStateOf("") }
+    // Define the searchPhrase variable in the outer scope
+    var searchPhrase by remember { mutableStateOf("") }
 
     Column(
         Modifier
@@ -65,9 +85,10 @@ fun HomeScreen(navController: NavHostController, menuItems: List<MenuItemRoom>) 
             .background(Color.White)
     ) {
         Header(navController)
+
         // Hide the HeroSection in landscape mode to give more space to the menu
         if (LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE) {
-            HeroSection()
+            HeroSection(onSearchPhraseChanged = { searchPhrase = it })
         }
 
         ButtonRow(selectedCategory) { category ->
@@ -77,9 +98,12 @@ fun HomeScreen(navController: NavHostController, menuItems: List<MenuItemRoom>) 
         // menu items section with scrolling
         Column(Modifier.verticalScroll(rememberScrollState())) {
             val filteredItems =
-                menuItems.filter { it.category == selectedCategory.lowercase(Locale.getDefault()) }
+                menuItems.filter { item ->
+                    (item.category == selectedCategory.lowercase(Locale.getDefault()) || selectedCategory.isEmpty())
+                            && item.title.contains(searchPhrase, ignoreCase = true)
+                }
 
-            if (selectedCategory.isNotEmpty()) {
+            if (filteredItems.isNotEmpty()) {
                 Column(Modifier.padding(16.dp)) {
                     filteredItems.forEach { item ->
                         // Define the MenuItem Composable representing a single menu item.
@@ -88,71 +112,132 @@ fun HomeScreen(navController: NavHostController, menuItems: List<MenuItemRoom>) 
                     }
                 }
             } else {
-                MenuItems(menuItems)
+                if (searchPhrase.isNotBlank()) {
+                    Text(
+                        text = stringResource(R.string.no_matching),
+                        modifier = Modifier.padding(16.dp),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = Color(0xFF495E57)
+                    )
+                } else {
+                    MenuItems(menuItems)
+                }
             }
         }
     }
 }
 
-
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
-fun HeroSection() {
-    Row(
+fun HeroSection(onSearchPhraseChanged: (String) -> Unit) {
+
+    //// Access the current software keyboard controller
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    var searchPhrase by remember { mutableStateOf("") }
+    Column(
         modifier = Modifier
             .background(Color(0xFF495E57))
             .fillMaxWidth()
             .padding(8.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .weight(0.65f)
-                .padding(start = 8.dp, top = 8.dp)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = stringResource(R.string.restaurant_name),
-                style = TextStyle(
-                    color = Color(0xFFF4CE14),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 52.sp,
-                    fontFamily = markazi_text_regular
-                ),
-            )
-            Text(
-                text = stringResource(R.string.city),
-                style = TextStyle(
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 38.sp,
-                    fontFamily = markazi_text_regular
-                ),
-            )
-            Text(
-                text = stringResource(R.string.description),
-                style = TextStyle(
-                    color = Color.White,
-                    fontSize = 14.sp,
-                    fontFamily = Karla_regular
-                ),
-                modifier = Modifier.padding(8.dp)
-            )
-        }
-        Column(
-            modifier = Modifier
-                .weight(0.35f)
-                .padding(start = 16.dp, top = 8.dp)
-                .align(Alignment.CenterVertically),
-        ) {
-            Image(
-                painter = painterResource(R.drawable.hero_image),
-                contentDescription = "Hero image",
+            Column(
                 modifier = Modifier
-                    .size(120.dp)
-                    .padding(8.dp)
-                    .clip(shape = RoundedCornerShape(16.dp))
-                    .fillMaxSize(),
-                contentScale = ContentScale.Crop,
-            )
+                    .weight(0.65f)
+                    .padding(start = 8.dp, top = 8.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.restaurant_name),
+                    style = TextStyle(
+                        color = Color(0xFFF4CE14),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 52.sp,
+                        fontFamily = markazi_text_regular
+                    ),
+                )
+                Text(
+                    text = stringResource(R.string.city),
+                    style = TextStyle(
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 38.sp,
+                        fontFamily = markazi_text_regular
+                    ),
+                )
+                Text(
+                    text = stringResource(R.string.description),
+                    style = TextStyle(
+                        color = Color.White,
+                        fontSize = 14.sp,
+                        fontFamily = Karla_regular
+                    ),
+                    modifier = Modifier.padding(8.dp)
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .weight(0.35f)
+                    .padding(start = 16.dp, top = 8.dp)
+                    .align(Alignment.CenterVertically),
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.hero_image),
+                    contentDescription = "Hero image",
+                    modifier = Modifier
+                        .size(120.dp)
+                        .padding(8.dp)
+                        .clip(shape = RoundedCornerShape(16.dp))
+                        .fillMaxSize(),
+                    contentScale = ContentScale.Crop,
+                )
+            }
         }
+        OutlinedTextField(
+            value = searchPhrase,
+            onValueChange = {
+                searchPhrase = it
+                onSearchPhraseChanged(it)
+            },
+            placeholder = {
+                Text(
+                    text = stringResource(R.string.search),
+                    color = Color(0xFFEDEFEE)
+                )
+            },
+            modifier = Modifier
+                .padding(16.dp, 8.dp)
+                .fillMaxWidth()
+                .onKeyEvent { event ->
+                    if (event.type == KeyEventType.KeyUp && (event.key == Enter || event.key == Tab)) {
+                        keyboardController?.hide() // Hide the keyboard when Enter or Tab key is pressed
+                        true
+                    } else {
+                        false
+                    }
+                },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color(0xFFF4CE14),
+                unfocusedBorderColor = Color.White,
+                textColor = Color(0xFFEDEFEE)
+            ),
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = "",
+                    tint = Color(0xFFEDEFEE)
+                )
+            },
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done), // Display "Done" button on the keyboard
+            keyboardActions = KeyboardActions(onDone = {
+                keyboardController?.hide() // Hide the keyboard when "Done" button is pressed
+            })
+        )
+
+
     }
 }
 
@@ -295,7 +380,9 @@ fun ButtonRow(
             ) {
                 Text(
                     text = category,
-                    color = if (category.lowercase(Locale.getDefault()) == selectedCategory) Color(0xFFF4CE14) else Color.Black,
+                    color = if (category.lowercase(Locale.getDefault()) == selectedCategory) Color(
+                        0xFFF4CE14
+                    ) else Color.Black,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold
                 )
