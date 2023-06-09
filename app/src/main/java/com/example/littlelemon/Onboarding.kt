@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -27,21 +29,32 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.littlelemon.ui.theme.Karla_regular
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun Onboarding(navController: NavHostController) {
+
+    // Access the current software keyboard controller
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     val context = LocalContext.current
     var firstName by remember { mutableStateOf("") }
@@ -90,7 +103,19 @@ fun Onboarding(navController: NavHostController) {
             label = { Text(text = stringResource(R.string.first_name)) },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(16.dp)
+                .onKeyEvent { event ->
+                    if (event.type == KeyEventType.KeyUp && (event.key == Key.Enter || event.key == Key.Tab)) {
+                        keyboardController?.hide() // Hide the keyboard when Enter or Tab key is pressed
+                        true
+                    } else {
+                        false
+                    }
+                },
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done), // Display "Done" button on the keyboard
+            keyboardActions = KeyboardActions(onDone = {
+                keyboardController?.hide() // Hide the keyboard when "Done" button is pressed
+            }),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFFF4CE14),
                 unfocusedBorderColor = Color(0xFF495E57),
@@ -105,7 +130,19 @@ fun Onboarding(navController: NavHostController) {
             label = { Text(text = stringResource(R.string.last_name)) },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(16.dp)
+                .onKeyEvent { event ->
+                    if (event.type == KeyEventType.KeyUp && (event.key == Key.Enter || event.key == Key.Tab)) {
+                        keyboardController?.hide() // Hide the keyboard when Enter or Tab key is pressed
+                        true
+                    } else {
+                        false
+                    }
+                },
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done), // Display "Done" button on the keyboard
+            keyboardActions = KeyboardActions(onDone = {
+                keyboardController?.hide() // Hide the keyboard when "Done" button is pressed
+            }),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFFF4CE14),
                 unfocusedBorderColor = Color(0xFF495E57),
@@ -120,7 +157,19 @@ fun Onboarding(navController: NavHostController) {
             label = { Text(text = stringResource(R.string.email)) },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(16.dp)
+                .onKeyEvent { event ->
+                    if (event.type == KeyEventType.KeyUp && (event.key == Key.Enter || event.key == Key.Tab)) {
+                        keyboardController?.hide() // Hide the keyboard when Enter or Tab key is pressed
+                        true
+                    } else {
+                        false
+                    }
+                },
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done), // Display "Done" button on the keyboard
+            keyboardActions = KeyboardActions(onDone = {
+                keyboardController?.hide() // Hide the keyboard when "Done" button is pressed
+            }),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFFF4CE14),
                 unfocusedBorderColor = Color(0xFF495E57),
