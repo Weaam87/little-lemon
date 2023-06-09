@@ -39,7 +39,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -47,15 +46,18 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.littlelemon.ui.theme.Karla_regular
 import com.example.littlelemon.ui.theme.markazi_text_regular
+import java.util.Locale
+
 
 @Composable
 fun HomeScreen(navController: NavHostController, menuItems: List<MenuItemRoom>) {
-
     // Create a mutable state list to hold the menu items with Compose-aware behavior
     val menuItemsState = remember { mutableStateListOf<MenuItemRoom>() }
-
     // Add all the items from the provided menuItems list to the mutable state list
     menuItemsState.addAll(menuItems)
+
+    // Define the selectedCategory variable in the outer scope
+    var selectedCategory by remember { mutableStateOf("") }
 
     Column(
         Modifier
@@ -67,14 +69,31 @@ fun HomeScreen(navController: NavHostController, menuItems: List<MenuItemRoom>) 
         if (LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE) {
             HeroSection()
         }
-        ButtonRow()
+
+        ButtonRow(selectedCategory) { category ->
+            selectedCategory = category
+        }
+
         // menu items section with scrolling
         Column(Modifier.verticalScroll(rememberScrollState())) {
-            MenuItems(menuItems)
+            val filteredItems =
+                menuItems.filter { it.category == selectedCategory.lowercase(Locale.getDefault()) }
+
+            if (selectedCategory.isNotEmpty()) {
+                Column(Modifier.padding(16.dp)) {
+                    filteredItems.forEach { item ->
+                        // Define the MenuItem Composable representing a single menu item.
+                        MenuItem(item)
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
+                }
+            } else {
+                MenuItems(menuItems)
+            }
         }
     }
-
 }
+
 
 @Composable
 fun HeroSection() {
@@ -135,13 +154,6 @@ fun HeroSection() {
             )
         }
     }
-}
-
-
-@Preview
-@Composable
-fun HeroSectionPreview() {
-    HeroSection()
 }
 
 @Composable
@@ -256,24 +268,25 @@ fun MenuItem(item: MenuItemRoom) {
 }
 
 @Composable
-fun ButtonRow() {
+fun ButtonRow(
+    selectedCategory: String,
+    onCategorySelected: (String) -> Unit
+) {
     val categories = listOf(
         stringResource(R.string.starters),
         stringResource(R.string.mains),
-        stringResource(R.string.desserts),
-        stringResource(R.string.sides)
+        stringResource(R.string.desserts)
     )
-    var selectedCategory by remember { mutableStateOf("") }
 
     Row(modifier = Modifier.padding(8.dp)) {
         categories.forEach { category ->
             Button(
-                onClick = { selectedCategory = category },
+                onClick = { onCategorySelected(category.lowercase(Locale.getDefault())) },
                 modifier = Modifier
                     .weight(1f)
-                    .padding(start = 4.dp),
+                    .padding(start = 8.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (category == selectedCategory) {
+                    containerColor = if (category.lowercase(Locale.getDefault()) == selectedCategory) {
                         Color(0xFF495E57)
                     } else {
                         Color(0xFFEDEFEE)
@@ -283,7 +296,7 @@ fun ButtonRow() {
                 Text(
                     text = category,
                     color = if (category == selectedCategory) Color.White else Color.Black,
-                    fontSize = 10.sp,
+                    fontSize = 14.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
