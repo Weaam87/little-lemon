@@ -33,7 +33,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -69,10 +68,6 @@ import java.util.Locale
 
 @Composable
 fun HomeScreen(navController: NavHostController, menuItems: List<MenuItemRoom>) {
-    // Create a mutable state list to hold the menu items with Compose-aware behavior
-    val menuItemsState = remember { mutableStateListOf<MenuItemRoom>() }
-    // Add all the items from the provided menuItems list to the mutable state list
-    menuItemsState.addAll(menuItems)
 
     // Define the selectedCategory variable in the outer scope
     var selectedCategory by remember { mutableStateOf("") }

@@ -39,7 +39,7 @@ import com.example.littlelemon.ui.theme.Karla_regular
 @Composable
 fun ProfileScreen(navController: NavHostController) {
     val context = LocalContext.current
-    val sharedPreferences = context.getSharedPreferences("little_lemon", MODE_PRIVATE)
+    val sharedPreferences = context.getSharedPreferences(context.packageName, MODE_PRIVATE)
     val firstName = sharedPreferences.getString("firstName", "")
     val lastName = sharedPreferences.getString("lastName", "")
     val email = sharedPreferences.getString("email", "")
@@ -198,7 +198,7 @@ fun ProfileScreen(navController: NavHostController) {
 }
 
 private fun clearUserData(context: Context) {
-    val sharedPreferences = context.getSharedPreferences("little_lemon", MODE_PRIVATE)
+    val sharedPreferences = context.getSharedPreferences(context.packageName, MODE_PRIVATE)
     val editor = sharedPreferences.edit()
     editor.clear()
     editor.apply()

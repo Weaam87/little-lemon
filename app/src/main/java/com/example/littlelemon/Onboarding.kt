@@ -214,7 +214,7 @@ fun Onboarding(navController: NavHostController) {
 }
 
 fun saveUserData(context: Context, firstName: String, lastName: String, email: String) {
-    val sharedPreferences = context.getSharedPreferences("little_lemon", MODE_PRIVATE)
+    val sharedPreferences = context.getSharedPreferences(context.packageName, MODE_PRIVATE)
     val editor = sharedPreferences.edit()
     editor.putString("firstName", firstName)
     editor.putString("lastName", lastName)
@@ -223,7 +223,7 @@ fun saveUserData(context: Context, firstName: String, lastName: String, email: S
 }
 
 fun userDataAvailable(context: Context): Boolean {
-    val sharedPreferences = context.getSharedPreferences("little_lemon", MODE_PRIVATE)
+    val sharedPreferences = context.getSharedPreferences(context.packageName, MODE_PRIVATE)
     val firstName = sharedPreferences.getString("firstName", null)
     val lastName = sharedPreferences.getString("lastName", null)
     val email = sharedPreferences.getString("email", null)
