@@ -76,7 +76,7 @@ fun HomeScreen(navController: NavHostController, menuItems: List<MenuItemRoom>) 
 
     Column(
         Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .background(Color.White)
     ) {
         Header(navController)
