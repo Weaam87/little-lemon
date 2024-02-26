@@ -134,7 +134,7 @@ fun HeroSection(onSearchPhraseChanged: (String) -> Unit) {
         modifier = Modifier
             .background(Color(0xFF495E57))
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(8.dp, 4.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -143,14 +143,14 @@ fun HeroSection(onSearchPhraseChanged: (String) -> Unit) {
             Column(
                 modifier = Modifier
                     .weight(0.65f)
-                    .padding(start = 8.dp, top = 8.dp)
+                    .padding(start = 8.dp, top = 4.dp)
             ) {
                 Text(
                     text = stringResource(R.string.restaurant_name),
                     style = TextStyle(
                         color = Color(0xFFF4CE14),
                         fontWeight = FontWeight.Bold,
-                        fontSize = 52.sp,
+                        fontSize = 40.sp,
                         fontFamily = markazi_text_regular
                     ),
                 )
@@ -159,7 +159,7 @@ fun HeroSection(onSearchPhraseChanged: (String) -> Unit) {
                     style = TextStyle(
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 38.sp,
+                        fontSize = 32.sp,
                         fontFamily = markazi_text_regular
                     ),
                 )
@@ -167,25 +167,25 @@ fun HeroSection(onSearchPhraseChanged: (String) -> Unit) {
                     text = stringResource(R.string.description),
                     style = TextStyle(
                         color = Color.White,
-                        fontSize = 14.sp,
+                        fontSize = 16.sp,
                         fontFamily = Karla_regular
                     ),
-                    modifier = Modifier.padding(8.dp)
+                    modifier = Modifier.padding(vertical = 4.dp)
                 )
             }
             Column(
                 modifier = Modifier
                     .weight(0.35f)
-                    .padding(start = 16.dp, top = 8.dp)
+                    .padding(start = 8.dp, top = 8.dp)
                     .align(Alignment.CenterVertically),
             ) {
                 Image(
                     painter = painterResource(R.drawable.hero_image),
                     contentDescription = "Hero image",
                     modifier = Modifier
-                        .size(120.dp)
-                        .padding(8.dp)
-                        .clip(shape = RoundedCornerShape(16.dp))
+                        .size(140.dp)
+                        .padding(horizontal = 8.dp)
+                        .clip(shape = RoundedCornerShape(8.dp))
                         .fillMaxSize(),
                     contentScale = ContentScale.Crop,
                 )
@@ -204,7 +204,7 @@ fun HeroSection(onSearchPhraseChanged: (String) -> Unit) {
                 )
             },
             modifier = Modifier
-                .padding(16.dp, 8.dp)
+                .padding(8.dp, 8.dp)
                 .fillMaxWidth()
                 .onKeyEvent { event ->
                     if (event.type == KeyEventType.KeyUp && (event.key == Enter || event.key == Tab)) {
@@ -241,7 +241,7 @@ fun Header(navController: NavHostController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(4.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -250,14 +250,14 @@ fun Header(navController: NavHostController) {
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "logoImage",
             modifier = Modifier
-                .size(200.dp, 90.dp)
+                .size(150.dp, 60.dp)
         )
         Spacer(modifier = Modifier.weight(0.5f)) // Add a spacer to push the profile image to the right
         Image(
             painter = painterResource(id = R.drawable.profile),
             contentDescription = "profileImage",
             modifier = Modifier
-                .size(80.dp)
+                .size(60.dp)
                 .padding(end = 8.dp)
                 .clickable {
                     navController.navigate(Profile.route)
@@ -281,6 +281,8 @@ fun MenuItems(menuItems: List<MenuItemRoom>) {
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun MenuItem(item: MenuItemRoom) {
+    var expanded by remember { mutableStateOf(false) }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -309,16 +311,37 @@ fun MenuItem(item: MenuItemRoom) {
                 textAlign = TextAlign.Start,
                 fontFamily = Karla_regular
             )
+
+            // Display only the first 80 letters of the description
+            val displayDescription =
+                if (expanded) item.description else item.description.take(80) + "..."
+
             Text(
-                text = item.description,
+                text = displayDescription,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 8.dp),
+                    .padding(start = 8.dp)
+                    .clickable { expanded = !expanded },
                 style = TextStyle(
                     fontSize = 14.sp,
+                    fontFamily = Karla_regular,
                     color = Color(0xFF495E57)
                 )
             )
+
+            // Show "read more" if the description is longer than 80 characters
+            if (item.description.length > 80) {
+                Text(
+                    text = if (expanded) "Read less" else "Read more",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 8.dp)
+                        .clickable { expanded = !expanded },
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF495E57)
+                )
+            }
+
             Text(
                 text = "$${item.price}",
                 modifier = Modifier
@@ -331,7 +354,7 @@ fun MenuItem(item: MenuItemRoom) {
                 fontFamily = Karla_regular
             )
         }
-        //Use the GlideImage library to load images using the URL present in the menu item image attribute.
+
         GlideImage(
             model = item.image,
             contentDescription = null,
@@ -339,13 +362,13 @@ fun MenuItem(item: MenuItemRoom) {
                 .size(100.dp)
                 .padding(8.dp)
                 .fillMaxSize()
-                .aspectRatio(1f) // Maintain the aspect ratio of the image,
+                .aspectRatio(1f)
                 .clip(shape = RoundedCornerShape(16.dp)),
             contentScale = ContentScale.Crop,
         )
-
     }
 }
+
 
 @Composable
 fun ButtonRow(
