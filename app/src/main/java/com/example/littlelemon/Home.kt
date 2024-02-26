@@ -375,32 +375,54 @@ fun ButtonRow(
     selectedCategory: String,
     onCategorySelected: (String) -> Unit
 ) {
+    // List of available categories
     val categories = listOf(
         stringResource(R.string.starters),
         stringResource(R.string.mains),
         stringResource(R.string.desserts)
     )
 
+    // Row containing category buttons
     Row(modifier = Modifier.padding(8.dp)) {
         categories.forEach { category ->
+            // Create a button for each category
             Button(
-                onClick = { onCategorySelected(category.lowercase(Locale.getDefault())) },
+                onClick = {
+                    // Toggle the category selection
+                    val newSelectedCategory =
+                        if (category.lowercase(Locale.getDefault()) == selectedCategory) {
+                            // Unselect the category if it's already selected
+                            ""
+                        } else {
+                            // Select the category if it's not selected
+                            category.lowercase(Locale.getDefault())
+                        }
+                    // Notify the parent about the selected category
+                    onCategorySelected(newSelectedCategory)
+                },
                 modifier = Modifier
                     .weight(1f)
                     .padding(start = 8.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = if (category.lowercase(Locale.getDefault()) == selectedCategory) {
+                        // Apply different background color for selected category
                         Color(0xFF495E57)
                     } else {
+                        // Apply default background color for unselected categories
                         Color(0xFFEDEFEE)
                     }
                 )
             ) {
+                // Display the category name in the button
                 Text(
                     text = category,
-                    color = if (category.lowercase(Locale.getDefault()) == selectedCategory) Color(
-                        0xFFF4CE14
-                    ) else Color.Black,
+                    color = if (category.lowercase(Locale.getDefault()) == selectedCategory) {
+                        // Apply different text color for selected category
+                        Color(0xFFF4CE14)
+                    } else {
+                        // Apply default text color for unselected categories
+                        Color.Black
+                    },
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold
                 )
