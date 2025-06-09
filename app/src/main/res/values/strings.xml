@@ -24,5 +24,10 @@
     <string name="add_to_cart">Add to cart</string>
     <string name="added_to_cart">Item added to cart</string>
     <string name="back">Back</string>
+    <string name="cart">Cart</string>
+    <string name="subtotal">Subtotal: $%1$s</string>
+    <string name="tax">Tax (6%): $%1$s</string>
+    <string name="total">Total: $%1$s</string>
+    <string name="checkout">Check out</string>
 </resources>
 

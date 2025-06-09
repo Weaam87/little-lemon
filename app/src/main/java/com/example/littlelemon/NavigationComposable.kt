@@ -29,6 +29,9 @@ fun MyNavigation(menuItems: List<MenuItemRoom>) {
             val id = backStackEntry.arguments?.getString(MenuItemDetail.idArg)?.toIntOrNull() ?: 0
             MenuItemDetailScreen(navController, id)
         }
+        composable(OrderSummary.route) {
+            OrderSummaryScreen(navController)
+        }
     }
 }
 

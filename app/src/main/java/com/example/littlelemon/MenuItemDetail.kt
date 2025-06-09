@@ -4,7 +4,8 @@ import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,6 +18,9 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -70,12 +74,30 @@ fun MenuItemDetailScreen(navController: NavHostController, itemId: Int) {
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
-        IconButton(onClick = { navController.popBackStack() }) {
-            Icon(
-                imageVector = Icons.Default.ArrowBack,
-                contentDescription = stringResource(id = R.string.back),
-                tint = Color(0xFF495E57)
-            )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(onClick = { navController.popBackStack() }) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = stringResource(id = R.string.back),
+                    tint = Color(0xFF495E57)
+                )
+            }
+            BadgedBox(badge = {
+                val count = CartRepository.getItemCount()
+                if (count > 0) Badge { Text(count.toString()) }
+            }) {
+                IconButton(onClick = { navController.navigate(OrderSummary.route) }) {
+                    Icon(
+                        imageVector = Icons.Default.ShoppingCart,
+                        contentDescription = stringResource(id = R.string.cart),
+                        tint = Color(0xFF495E57)
+                    )
+                }
+            }
         }
 
         menuItem?.let { item ->
@@ -138,6 +160,7 @@ fun MenuItemDetailScreen(navController: NavHostController, itemId: Int) {
 
             Button(
                 onClick = {
+                    CartRepository.addItem(item, instructions)
                     Toast.makeText(context, context.getString(R.string.added_to_cart), Toast.LENGTH_SHORT).show()
                 },
                 modifier = Modifier

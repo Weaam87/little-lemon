@@ -21,3 +21,7 @@ object MenuItemDetail : Destinations {
     const val idArg = "itemId"
 }
 
+object OrderSummary : Destinations {
+    override val route = "OrderSummary"
+}
+
