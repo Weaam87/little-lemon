@@ -29,6 +29,9 @@ interface MenuItemDao {
     @Query("SELECT * FROM MenuItemRoom")
     fun getAll(): LiveData<List<MenuItemRoom>>
 
+    @Query("SELECT * FROM MenuItemRoom WHERE id = :id")
+    suspend fun getById(id: Int): MenuItemRoom?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(menuItem: MenuItemRoom)
 

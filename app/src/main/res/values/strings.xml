@@ -20,5 +20,9 @@
     <string name="search">Enter search phrase</string>
     <string name="no_matching">No matching items found!</string>
     <string name="description">We are a family-owned Mediterranean restaurant, focused on traditional recipes served with a modern twist</string>
+    <string name="special_instructions">Special instructions</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="added_to_cart">Item added to cart</string>
+    <string name="back">Back</string>
 </resources>
 

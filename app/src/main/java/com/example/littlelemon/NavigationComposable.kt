@@ -25,6 +25,10 @@ fun MyNavigation(menuItems: List<MenuItemRoom>) {
         composable(Onboarding.route) {
             Onboarding(navController)
         }
+        composable("${MenuItemDetail.route}/{${MenuItemDetail.idArg}}") { backStackEntry ->
+            val id = backStackEntry.arguments?.getString(MenuItemDetail.idArg)?.toIntOrNull() ?: 0
+            MenuItemDetailScreen(navController, id)
+        }
     }
 }
 

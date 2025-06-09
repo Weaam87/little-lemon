@@ -102,7 +102,9 @@ fun HomeScreen(navController: NavHostController, menuItems: List<MenuItemRoom>) 
                 Column(Modifier.padding(16.dp)) {
                     filteredItems.forEach { item ->
                         // Define the MenuItem Composable representing a single menu item.
-                        MenuItem(item)
+                        MenuItem(item) {
+                            navController.navigate("${MenuItemDetail.route}/${item.id}")
+                        }
                         Spacer(modifier = Modifier.height(8.dp))
                     }
                 }
@@ -115,7 +117,9 @@ fun HomeScreen(navController: NavHostController, menuItems: List<MenuItemRoom>) 
                         color = Color(0xFF495E57)
                     )
                 } else {
-                    MenuItems(menuItems)
+                    MenuItems(menuItems) { clickedItem ->
+                        navController.navigate("${MenuItemDetail.route}/${clickedItem.id}")
+                    }
                 }
             }
         }
@@ -268,12 +272,11 @@ fun Header(navController: NavHostController) {
 }
 
 @Composable
-fun MenuItems(menuItems: List<MenuItemRoom>) {
+fun MenuItems(menuItems: List<MenuItemRoom>, onItemClick: (MenuItemRoom) -> Unit) {
     // Use a Column layout to position items below each other.
     Column(Modifier.padding(16.dp)) {
         menuItems.forEach { item ->
-            // Define the MenuItem Composable representing a single menu item.
-            MenuItem(item)
+            MenuItem(item, onItemClick)
             Spacer(modifier = Modifier.height(8.dp))
         }
     }
@@ -281,7 +284,7 @@ fun MenuItems(menuItems: List<MenuItemRoom>) {
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun MenuItem(item: MenuItemRoom) {
+fun MenuItem(item: MenuItemRoom, onItemClick: (MenuItemRoom) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
 
     Row(
@@ -364,7 +367,8 @@ fun MenuItem(item: MenuItemRoom) {
                 .padding(8.dp)
                 .fillMaxSize()
                 .aspectRatio(1f)
-                .clip(shape = RoundedCornerShape(16.dp)),
+                .clip(shape = RoundedCornerShape(16.dp))
+                .clickable { onItemClick(item) },
             contentScale = ContentScale.Crop,
         )
     }
