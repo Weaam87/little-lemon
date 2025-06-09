@@ -15,3 +15,4 @@ data class MenuItemNetwork(
     @SerialName("image") val image: String,
     @SerialName("category") val category: String
 )
+

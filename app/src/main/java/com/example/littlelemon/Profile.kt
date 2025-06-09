@@ -3,6 +3,9 @@ package com.example.littlelemon
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import com.example.littlelemon.PREF_EMAIL
+import com.example.littlelemon.PREF_FIRST_NAME
+import com.example.littlelemon.PREF_LAST_NAME
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -40,9 +43,9 @@ import com.example.littlelemon.ui.theme.Karla_regular
 fun ProfileScreen(navController: NavHostController) {
     val context = LocalContext.current
     val sharedPreferences = context.getSharedPreferences(context.packageName, MODE_PRIVATE)
-    val firstName = sharedPreferences.getString("firstName", "")
-    val lastName = sharedPreferences.getString("lastName", "")
-    val email = sharedPreferences.getString("email", "")
+    val firstName = sharedPreferences.getString(PREF_FIRST_NAME, "")
+    val lastName = sharedPreferences.getString(PREF_LAST_NAME, "")
+    val email = sharedPreferences.getString(PREF_EMAIL, "")
     Column(
         Modifier
             .fillMaxSize()
@@ -203,3 +206,4 @@ private fun clearUserData(context: Context) {
     editor.clear()
     editor.apply()
 }
+

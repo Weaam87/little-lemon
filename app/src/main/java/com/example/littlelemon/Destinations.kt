@@ -15,3 +15,4 @@ object Profile : Destinations {
 object Onboarding  : Destinations {
     override val route = "Onboarding"
 }
+

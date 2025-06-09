@@ -2,6 +2,9 @@ package com.example.littlelemon
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import com.example.littlelemon.PREF_EMAIL
+import com.example.littlelemon.PREF_FIRST_NAME
+import com.example.littlelemon.PREF_LAST_NAME
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -216,17 +219,18 @@ fun Onboarding(navController: NavHostController) {
 fun saveUserData(context: Context, firstName: String, lastName: String, email: String) {
     val sharedPreferences = context.getSharedPreferences(context.packageName, MODE_PRIVATE)
     val editor = sharedPreferences.edit()
-    editor.putString("firstName", firstName)
-    editor.putString("lastName", lastName)
-    editor.putString("email", email)
+    editor.putString(PREF_FIRST_NAME, firstName)
+    editor.putString(PREF_LAST_NAME, lastName)
+    editor.putString(PREF_EMAIL, email)
     editor.apply()
 }
 
 fun userDataAvailable(context: Context): Boolean {
     val sharedPreferences = context.getSharedPreferences(context.packageName, MODE_PRIVATE)
-    val firstName = sharedPreferences.getString("firstName", null)
-    val lastName = sharedPreferences.getString("lastName", null)
-    val email = sharedPreferences.getString("email", null)
+    val firstName = sharedPreferences.getString(PREF_FIRST_NAME, null)
+    val lastName = sharedPreferences.getString(PREF_LAST_NAME, null)
+    val email = sharedPreferences.getString(PREF_EMAIL, null)
 
     return firstName != null && lastName != null && email != null
 }
+

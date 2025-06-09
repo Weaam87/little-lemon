@@ -97,9 +97,10 @@ class MainActivity : ComponentActivity() {
             )
         }
         lifecycleScope.launch(Dispatchers.IO) {
-            val menuItemDao = db.menuItemDao() // Retrieve the MenuItemDao instance from AppDatabase
-            menuItemDao.insertOrUpdateAll(menuEntities) // Use the updated insertOrUpdateAll function to insert or update the menu items
+            val menuItemDao = db.menuItemDao()
+            menuItemDao.insertAll(menuEntities)
         }
     }
 
 }
+
