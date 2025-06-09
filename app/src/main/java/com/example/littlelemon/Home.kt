@@ -31,7 +31,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -218,7 +217,8 @@ fun HeroSection(onSearchPhraseChanged: (String) -> Unit) {
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Color(0xFFF4CE14),
                 unfocusedBorderColor = Color.White,
-                textColor = Color(0xFFEDEFEE)
+                focusedTextColor = Color(0xFFEDEFEE),
+                unfocusedTextColor = Color(0xFFEDEFEE)
             ),
             leadingIcon = {
                 Icon(

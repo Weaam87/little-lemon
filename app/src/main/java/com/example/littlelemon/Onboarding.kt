@@ -26,7 +26,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -125,7 +124,8 @@ fun Onboarding(navController: NavHostController) {
                 unfocusedBorderColor = Color(0xFF495E57),
                 focusedLabelColor = Color(0xFF495E57),
                 unfocusedLabelColor = Color(0xFF495E57),
-                textColor = Color(0xFF495E57)
+                focusedTextColor = Color(0xFF495E57),
+                unfocusedTextColor = Color(0xFF495E57)
             )
         )
         OutlinedTextField(
@@ -152,7 +152,8 @@ fun Onboarding(navController: NavHostController) {
                 unfocusedBorderColor = Color(0xFF495E57),
                 focusedLabelColor = Color(0xFF495E57),
                 unfocusedLabelColor = Color(0xFF495E57),
-                textColor = Color(0xFF495E57)
+                focusedTextColor = Color(0xFF495E57),
+                unfocusedTextColor = Color(0xFF495E57)
             )
         )
         OutlinedTextField(
@@ -179,7 +180,8 @@ fun Onboarding(navController: NavHostController) {
                 unfocusedBorderColor = Color(0xFF495E57),
                 focusedLabelColor = Color(0xFF495E57),
                 unfocusedLabelColor = Color(0xFF495E57),
-                textColor = Color(0xFF495E57)
+                focusedTextColor = Color(0xFF495E57),
+                unfocusedTextColor = Color(0xFF495E57)
             )
         )
         Spacer(Modifier.weight(1f)) // to move the button to the bottom of the screen
