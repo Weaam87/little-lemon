@@ -24,6 +24,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -119,7 +120,7 @@ fun Onboarding(navController: NavHostController) {
             keyboardActions = KeyboardActions(onDone = {
                 keyboardController?.hide() // Hide the keyboard when "Done" button is pressed
             }),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
+            colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Color(0xFFF4CE14),
                 unfocusedBorderColor = Color(0xFF495E57),
                 focusedLabelColor = Color(0xFF495E57),
@@ -146,7 +147,7 @@ fun Onboarding(navController: NavHostController) {
             keyboardActions = KeyboardActions(onDone = {
                 keyboardController?.hide() // Hide the keyboard when "Done" button is pressed
             }),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
+            colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Color(0xFFF4CE14),
                 unfocusedBorderColor = Color(0xFF495E57),
                 focusedLabelColor = Color(0xFF495E57),
@@ -173,7 +174,7 @@ fun Onboarding(navController: NavHostController) {
             keyboardActions = KeyboardActions(onDone = {
                 keyboardController?.hide() // Hide the keyboard when "Done" button is pressed
             }),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
+            colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Color(0xFFF4CE14),
                 unfocusedBorderColor = Color(0xFF495E57),
                 focusedLabelColor = Color(0xFF495E57),
