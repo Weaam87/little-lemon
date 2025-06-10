@@ -25,16 +25,18 @@
     <string name="added_to_cart">Item added to cart</string>
     <string name="back">Back</string>
     <string name="cart">Cart</string>
-    <string name="subtotal">Subtotal: $%1$s</string>
+    <string name="subtotal">Subtotal</string>
     <!-- Escape percent sign so String.format doesn't treat it as a format specifier -->
-    <string name="tax">Tax (6%%): $%1$s</string>
-    <string name="total">Total: $%1$s</string>
+    <string name="tax">Tax (6%%)</string>
+    <string name="total">Total</string>
     <string name="checkout">Check out</string>
     <string name="promo_code">Promo code</string>
     <string name="apply">Apply</string>
     <string name="remove_promo_confirmation">Remove promo code?</string>
     <string name="remove">Remove</string>
     <string name="cancel">Cancel</string>
-    <string name="discount">Discount: -$%1$s</string>
+    <string name="discount">Discount</string>
+    <string name="empty_cart">Your cart is empty</string>
+    <string name="delete">Delete</string>
 </resources>
 
