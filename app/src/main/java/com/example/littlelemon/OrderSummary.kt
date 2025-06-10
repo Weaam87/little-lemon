@@ -16,7 +16,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.AlertDialog
@@ -191,7 +190,10 @@ fun OrderSummaryScreen(navController: NavHostController) {
             ) {
                 Text(text = stringResource(R.string.promo_code) + ": TEST")
                 IconButton(onClick = { showRemoveDialog = true }) {
-                    Icon(imageVector = Icons.Default.Delete, contentDescription = stringResource(R.string.delete))
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = stringResource(R.string.delete)
+                    )
                 }
             }
         }
@@ -207,20 +209,32 @@ fun OrderSummaryScreen(navController: NavHostController) {
                     }) { Text(stringResource(R.string.remove)) }
                 },
                 dismissButton = {
-                    TextButton(onClick = { showRemoveDialog = false }) { Text(stringResource(R.string.cancel)) }
+                    TextButton(onClick = {
+                        showRemoveDialog = false
+                    }) { Text(stringResource(R.string.cancel)) }
                 },
                 text = { Text(stringResource(R.string.remove_promo_confirmation)) }
             )
         }
 
         Column(modifier = Modifier.fillMaxWidth()) {
-            SummaryRow(label = stringResource(R.string.subtotal), value = "$${subtotal.formatDigits()}")
+            SummaryRow(
+                label = stringResource(R.string.subtotal),
+                value = "$${subtotal.formatDigits()}"
+            )
             if (promoApplied) {
-                SummaryRow(label = stringResource(R.string.discount), value = "-$${discount.formatDigits()}")
+                SummaryRow(
+                    label = stringResource(R.string.discount),
+                    value = "-$${discount.formatDigits()}"
+                )
             }
             SummaryRow(label = stringResource(R.string.tax), value = "$${tax.formatDigits()}")
             HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
-            SummaryRow(label = stringResource(R.string.total), value = "$${total.formatDigits()}", bold = true)
+            SummaryRow(
+                label = stringResource(R.string.total),
+                value = "$${total.formatDigits()}",
+                bold = true
+            )
         }
 
         Button(
