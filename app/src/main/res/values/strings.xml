@@ -36,6 +36,11 @@
     <string name="remove">Remove</string>
     <string name="cancel">Cancel</string>
     <string name="discount">Discount: -$%1$s</string>
+    <string name="delete_item">Delete item</string>
+    <string name="subtotal_label">Subtotal</string>
+    <string name="discount_label">Discount</string>
+    <string name="tax_label">Tax</string>
+    <string name="total_label">Total</string>
     <string name="empty_cart">Your cart is empty</string>
     <string name="empty_cart_hint">Add items to get started!</string>
 </resources>

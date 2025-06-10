@@ -38,6 +38,10 @@ object CartRepository {
     fun clear() {
         cartItems.clear()
     }
+
+    fun removeItem(cartItem: CartItem) {
+        cartItems.remove(cartItem)
+    }
 }
 
 fun Double.formatDigits(digits: Int = 2): String = "%.${digits}f".format(this)
