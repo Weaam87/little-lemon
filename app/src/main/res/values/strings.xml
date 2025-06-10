@@ -30,5 +30,11 @@
     <string name="tax">Tax (6%%): $%1$s</string>
     <string name="total">Total: $%1$s</string>
     <string name="checkout">Check out</string>
+    <string name="promo_code">Promo code</string>
+    <string name="apply">Apply</string>
+    <string name="remove_promo_confirmation">Remove promo code?</string>
+    <string name="remove">Remove</string>
+    <string name="cancel">Cancel</string>
+    <string name="discount">Discount: -$%1$s</string>
 </resources>
 

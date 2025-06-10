@@ -12,16 +12,24 @@ object CartRepository {
     val cartItems = mutableStateListOf<CartItem>()
 
     fun addItem(item: MenuItemRoom, instructions: String) {
-        val existing = cartItems.find { it.menuItem.id == item.id }
+        val trimmed = instructions.trim()
+        val existing = cartItems.find {
+            it.menuItem.id == item.id &&
+                ((it.instructions.isNullOrBlank() && trimmed.isBlank()) ||
+                    it.instructions == trimmed)
+        }
         if (existing != null) {
             existing.quantity += 1
-            if (instructions.isNotBlank()) {
-                existing.instructions = instructions
-            }
             val idx = cartItems.indexOf(existing)
             cartItems[idx] = existing.copy()
         } else {
-            cartItems.add(CartItem(item, if (instructions.isBlank()) null else instructions, 1))
+            cartItems.add(
+                CartItem(
+                    item,
+                    if (trimmed.isBlank()) null else trimmed,
+                    1
+                )
+            )
         }
     }
 
