@@ -2,6 +2,9 @@ package com.example.littlelemon
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import com.example.littlelemon.PREF_EMAIL
+import com.example.littlelemon.PREF_FIRST_NAME
+import com.example.littlelemon.PREF_LAST_NAME
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,8 +24,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -116,12 +119,13 @@ fun Onboarding(navController: NavHostController) {
             keyboardActions = KeyboardActions(onDone = {
                 keyboardController?.hide() // Hide the keyboard when "Done" button is pressed
             }),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
+            colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Color(0xFFF4CE14),
                 unfocusedBorderColor = Color(0xFF495E57),
                 focusedLabelColor = Color(0xFF495E57),
                 unfocusedLabelColor = Color(0xFF495E57),
-                textColor = Color(0xFF495E57)
+                focusedTextColor = Color(0xFF495E57),
+                unfocusedTextColor = Color(0xFF495E57)
             )
         )
         OutlinedTextField(
@@ -143,12 +147,13 @@ fun Onboarding(navController: NavHostController) {
             keyboardActions = KeyboardActions(onDone = {
                 keyboardController?.hide() // Hide the keyboard when "Done" button is pressed
             }),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
+            colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Color(0xFFF4CE14),
                 unfocusedBorderColor = Color(0xFF495E57),
                 focusedLabelColor = Color(0xFF495E57),
                 unfocusedLabelColor = Color(0xFF495E57),
-                textColor = Color(0xFF495E57)
+                focusedTextColor = Color(0xFF495E57),
+                unfocusedTextColor = Color(0xFF495E57)
             )
         )
         OutlinedTextField(
@@ -170,12 +175,13 @@ fun Onboarding(navController: NavHostController) {
             keyboardActions = KeyboardActions(onDone = {
                 keyboardController?.hide() // Hide the keyboard when "Done" button is pressed
             }),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
+            colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Color(0xFFF4CE14),
                 unfocusedBorderColor = Color(0xFF495E57),
                 focusedLabelColor = Color(0xFF495E57),
                 unfocusedLabelColor = Color(0xFF495E57),
-                textColor = Color(0xFF495E57)
+                focusedTextColor = Color(0xFF495E57),
+                unfocusedTextColor = Color(0xFF495E57)
             )
         )
         Spacer(Modifier.weight(1f)) // to move the button to the bottom of the screen
@@ -216,17 +222,18 @@ fun Onboarding(navController: NavHostController) {
 fun saveUserData(context: Context, firstName: String, lastName: String, email: String) {
     val sharedPreferences = context.getSharedPreferences(context.packageName, MODE_PRIVATE)
     val editor = sharedPreferences.edit()
-    editor.putString("firstName", firstName)
-    editor.putString("lastName", lastName)
-    editor.putString("email", email)
+    editor.putString(PREF_FIRST_NAME, firstName)
+    editor.putString(PREF_LAST_NAME, lastName)
+    editor.putString(PREF_EMAIL, email)
     editor.apply()
 }
 
 fun userDataAvailable(context: Context): Boolean {
     val sharedPreferences = context.getSharedPreferences(context.packageName, MODE_PRIVATE)
-    val firstName = sharedPreferences.getString("firstName", null)
-    val lastName = sharedPreferences.getString("lastName", null)
-    val email = sharedPreferences.getString("email", null)
+    val firstName = sharedPreferences.getString(PREF_FIRST_NAME, null)
+    val lastName = sharedPreferences.getString(PREF_LAST_NAME, null)
+    val email = sharedPreferences.getString(PREF_EMAIL, null)
 
     return firstName != null && lastName != null && email != null
 }
+

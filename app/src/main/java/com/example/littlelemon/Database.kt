@@ -29,31 +29,14 @@ interface MenuItemDao {
     @Query("SELECT * FROM MenuItemRoom")
     fun getAll(): LiveData<List<MenuItemRoom>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(menuItem: MenuItemRoom)
-
-    @Transaction
-    fun insertOrUpdateAll(menuItems: List<MenuItemRoom>) {
-        for (menuItem in menuItems) {
-            insertOrUpdate(menuItem)
-        }
-    }
-
-    @Transaction
-    fun insertOrUpdate(menuItem: MenuItemRoom) {
-        val existingItem = getById(menuItem.id)
-        if (existingItem == null) {
-            insert(menuItem)
-        } else {
-            update(menuItem)
-        }
-    }
-
     @Query("SELECT * FROM MenuItemRoom WHERE id = :id")
-    fun getById(id: Int): MenuItemRoom?
+    suspend fun getById(id: Int): MenuItemRoom?
 
-    @Update
-    fun update(menuItem: MenuItemRoom)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(menuItem: MenuItemRoom)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(menuItems: List<MenuItemRoom>)
 }
 
 
@@ -81,3 +64,4 @@ abstract class AppDatabase : RoomDatabase() {
         }
     }
 }
+
