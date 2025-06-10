@@ -38,11 +38,5 @@
     <string name="discount">Discount: -$%1$s</string>
     <string name="empty_cart">Your cart is empty</string>
     <string name="empty_cart_hint">Add items to get started!</string>
-    <string name="delete_item">Delete item</string>
-    <string name="subtotal_label">Subtotal</string>
-    <string name="discount_label">Discount</string>
-    <!-- Escape percent sign so String.format doesn't treat it as a format specifier -->
-    <string name="tax_label">Tax (6%%)</string>
-    <string name="total_label">Total</string>
 </resources>
 

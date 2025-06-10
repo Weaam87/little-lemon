@@ -17,7 +17,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Badge
@@ -42,7 +41,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
@@ -114,54 +112,46 @@ fun OrderSummaryScreen(navController: NavHostController) {
             }
         }
 
-            LazyColumn(modifier = Modifier.weight(1f)) {
-                items(items) { cartItem ->
-                    Row(
+        LazyColumn(modifier = Modifier.weight(1f)) {
+            items(items) { cartItem ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    GlideImage(
+                        model = cartItem.menuItem.image,
+                        contentDescription = cartItem.menuItem.title,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                            .size(80.dp)
+                            .aspectRatio(1f)
+                            .clip(RoundedCornerShape(10.dp)),
+                        contentScale = ContentScale.Crop
+                    )
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(start = 8.dp)
                     ) {
-                        GlideImage(
-                            model = cartItem.menuItem.image,
-                            contentDescription = cartItem.menuItem.title,
-                            modifier = Modifier
-                                .size(80.dp)
-                                .aspectRatio(1f)
-                                .clip(RoundedCornerShape(10.dp)),
-                            contentScale = ContentScale.Crop
-                        )
-                        Column(
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(start = 8.dp)
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Text(cartItem.menuItem.title)
-                                Text("x${cartItem.quantity}")
-                            }
-                            Text("$${(cartItem.menuItem.price.toDouble() * cartItem.quantity).formatDigits()}")
-                            cartItem.instructions?.let { instr ->
-                                if (instr.isNotBlank()) {
-                                    Text(text = instr)
-                                }
-                            }
+                            Text(cartItem.menuItem.title)
+                            Text("x${cartItem.quantity}")
                         }
-                        IconButton(onClick = { CartRepository.removeItem(cartItem) }) {
-                            Icon(
-                                imageVector = Icons.Default.Delete,
-                                contentDescription = stringResource(R.string.delete_item),
-                                tint = Color(0xFF495E57)
-                            )
+                        Text("$${(cartItem.menuItem.price.toDouble() * cartItem.quantity).formatDigits()}")
+                        cartItem.instructions?.let { instr ->
+                            if (instr.isNotBlank()) {
+                                Text(text = instr)
+                            }
                         }
                     }
-                    HorizontalDivider(
-                        modifier = Modifier.padding(vertical = 4.dp)
-                    )
                 }
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = 4.dp)
+                )
             }
         }
 
@@ -178,21 +168,13 @@ fun OrderSummaryScreen(navController: NavHostController) {
                     modifier = Modifier.weight(1f),
                     label = { Text(stringResource(R.string.promo_code)) },
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Color(0xFFF4CE14),
-                        unfocusedBorderColor = Color(0xFF495E57),
-                        focusedLabelColor = Color(0xFF495E57),
-                        unfocusedLabelColor = Color(0xFF495E57),
-                        focusedTextColor = Color(0xFF495E57),
-                        unfocusedTextColor = Color(0xFF495E57)
+                        focusedBorderColor = Color(0xFF495E57),
+                        unfocusedBorderColor = Color(0xFF495E57)
                     )
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Button(
-                    onClick = { if (promoText.equals("test", true)) promoApplied = true },
-                    shape = RoundedCornerShape(30),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF4CE14))
-                ) {
-                    Text(stringResource(R.string.apply), color = Color.Black)
+                Button(onClick = { if (promoText.equals("test", true)) promoApplied = true }) {
+                    Text(stringResource(R.string.apply))
                 }
             }
         } else {
@@ -203,11 +185,7 @@ fun OrderSummaryScreen(navController: NavHostController) {
             ) {
                 Text(text = stringResource(R.string.promo_code) + ": TEST")
                 IconButton(onClick = { showRemoveDialog = true }) {
-                    Icon(
-                        imageVector = Icons.Default.Close,
-                        contentDescription = stringResource(R.string.remove),
-                        tint = Color(0xFF495E57)
-                    )
+                    Icon(imageVector = Icons.Default.Close, contentDescription = "")
                 }
             }
         }
@@ -229,14 +207,13 @@ fun OrderSummaryScreen(navController: NavHostController) {
             )
         }
 
-        Column(modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) {
-            SummaryRow(stringResource(R.string.subtotal_label), "$${subtotal.formatDigits()}")
+        Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.End) {
+            Text(text = stringResource(R.string.subtotal, subtotal.formatDigits()))
             if (promoApplied) {
-                SummaryRow(stringResource(R.string.discount_label), "-$${discount.formatDigits()}")
+                Text(text = stringResource(R.string.discount, discount.formatDigits()))
             }
-            SummaryRow(stringResource(R.string.tax_label), "$${tax.formatDigits()}")
-            HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
-            SummaryRow(stringResource(R.string.total_label), "$${total.formatDigits()}", true)
+            Text(text = stringResource(R.string.tax, tax.formatDigits()))
+            Text(text = stringResource(R.string.total, total.formatDigits()))
         }
 
         Button(
@@ -251,17 +228,6 @@ fun OrderSummaryScreen(navController: NavHostController) {
         ) {
             Text(stringResource(R.string.checkout), color = Color.Black)
         }
-    }
-}
-
-@Composable
-private fun SummaryRow(label: String, amount: String, bold: Boolean = false) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(label, fontWeight = if (bold) FontWeight.Bold else FontWeight.Normal)
-        Text(amount, fontWeight = if (bold) FontWeight.Bold else FontWeight.Normal)
     }
 }
 
