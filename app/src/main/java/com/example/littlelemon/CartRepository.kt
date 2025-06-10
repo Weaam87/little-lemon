@@ -35,6 +35,10 @@ object CartRepository {
 
     fun getItemCount(): Int = cartItems.sumOf { it.quantity }
 
+    fun removeItem(item: CartItem) {
+        cartItems.remove(item)
+    }
+
     fun clear() {
         cartItems.clear()
     }
