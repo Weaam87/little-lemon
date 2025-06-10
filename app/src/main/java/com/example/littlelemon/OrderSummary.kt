@@ -62,6 +62,33 @@ fun OrderSummaryScreen(navController: NavHostController) {
     val tax = taxedSubtotal * 0.06
     val total = taxedSubtotal + tax
 
+    if (items.isEmpty()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                imageVector = Icons.Default.ShoppingCart,
+                contentDescription = stringResource(id = R.string.cart),
+                modifier = Modifier.size(96.dp),
+                tint = Color(0xFF495E57)
+            )
+            Text(
+                text = stringResource(R.string.empty_cart),
+                modifier = Modifier.padding(top = 8.dp),
+                color = Color(0xFF495E57)
+            )
+            Text(
+                text = stringResource(R.string.empty_cart_hint),
+                color = Color(0xFF495E57)
+            )
+        }
+        return
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -87,31 +114,6 @@ fun OrderSummaryScreen(navController: NavHostController) {
             }
         }
 
-        if (items.isEmpty()) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Icon(
-                    imageVector = Icons.Default.ShoppingCart,
-                    contentDescription = stringResource(id = R.string.cart),
-                    modifier = Modifier.size(96.dp),
-                    tint = Color(0xFF495E57)
-                )
-                Text(
-                    text = stringResource(R.string.empty_cart),
-                    modifier = Modifier.padding(top = 8.dp),
-                    color = Color(0xFF495E57)
-                )
-                Text(
-                    text = stringResource(R.string.empty_cart_hint),
-                    color = Color(0xFF495E57)
-                )
-            }
-        } else {
             LazyColumn(modifier = Modifier.weight(1f)) {
                 items(items) { cartItem ->
                     Row(
