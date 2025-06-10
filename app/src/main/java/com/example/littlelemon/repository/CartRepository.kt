@@ -1,4 +1,4 @@
-package com.example.littlelemon
+package com.example.littlelemon.repository
 
 import androidx.compose.runtime.mutableStateListOf
 

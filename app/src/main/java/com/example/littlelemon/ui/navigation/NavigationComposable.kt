@@ -1,10 +1,17 @@
-package com.example.littlelemon
+package com.example.littlelemon.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.littlelemon.data.database.MenuItemRoom
+import com.example.littlelemon.ui.screens.HomeScreen
+import com.example.littlelemon.ui.screens.MenuItemDetailScreen
+import com.example.littlelemon.ui.screens.Onboarding
+import com.example.littlelemon.ui.screens.OrderSummaryScreen
+import com.example.littlelemon.ui.screens.ProfileScreen
+import com.example.littlelemon.ui.screens.userDataAvailable
 
 @Composable
 fun MyNavigation(menuItems: List<MenuItemRoom>) {

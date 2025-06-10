@@ -1,4 +1,4 @@
-package com.example.littlelemon
+package com.example.littlelemon.ui.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -47,6 +47,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.littlelemon.data.database.AppDatabase
+import com.example.littlelemon.data.database.MenuItemRoom
+import com.example.littlelemon.repository.CartRepository
 import com.example.littlelemon.ui.theme.Karla_regular
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

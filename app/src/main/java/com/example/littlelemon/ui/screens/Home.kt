@@ -1,4 +1,4 @@
-package com.example.littlelemon
+package com.example.littlelemon.ui.screens
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke

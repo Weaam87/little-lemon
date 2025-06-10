@@ -1,10 +1,10 @@
-package com.example.littlelemon
+package com.example.littlelemon.ui.screens
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import com.example.littlelemon.PREF_EMAIL
-import com.example.littlelemon.PREF_FIRST_NAME
-import com.example.littlelemon.PREF_LAST_NAME
+import com.example.littlelemon.util.PREF_EMAIL
+import com.example.littlelemon.util.PREF_FIRST_NAME
+import com.example.littlelemon.util.PREF_LAST_NAME
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

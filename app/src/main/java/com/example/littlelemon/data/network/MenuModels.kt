@@ -1,4 +1,4 @@
-package com.example.littlelemon
+package com.example.littlelemon.data.network
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
