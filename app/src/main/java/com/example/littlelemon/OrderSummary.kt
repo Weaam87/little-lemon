@@ -16,7 +16,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Cancel
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.AlertDialog
@@ -202,7 +202,7 @@ fun OrderSummaryScreen(navController: NavHostController) {
                 Text(text = stringResource(R.string.promo_code) + ": TEST")
                 IconButton(onClick = { showRemoveDialog = true }) {
                     Icon(
-                        imageVector = Icons.Default.Cancel,
+                        imageVector = Icons.Default.Close,
                         contentDescription = stringResource(R.string.remove),
                         tint = Color(0xFF495E57)
                     )
