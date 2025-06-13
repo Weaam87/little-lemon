@@ -53,10 +53,17 @@ fun OrderSummaryScreen(navController: NavHostController) {
     val items = CartRepository.cartItems
     var promoText by remember { mutableStateOf("") }
     var promoApplied by remember { mutableStateOf(false) }
+    var promoCode by remember { mutableStateOf<String?>(null) }
     var showRemoveDialog by remember { mutableStateOf(false) }
 
     val subtotal = items.sumOf { it.menuItem.price.toDouble() * it.quantity }
-    val discount = if (promoApplied) subtotal * 0.5 else 0.0
+    val discount = if (promoApplied) {
+        when (promoCode?.lowercase()) {
+            "test" -> subtotal * 0.5
+            "test2" -> subtotal * 0.8
+            else -> 0.0
+        }
+    } else 0.0
     val taxedSubtotal = subtotal - discount
     val tax = taxedSubtotal * 0.06
     val total = taxedSubtotal + tax
@@ -175,7 +182,13 @@ fun OrderSummaryScreen(navController: NavHostController) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(
-                    onClick = { if (promoText.equals("test", true)) promoApplied = true },
+                    onClick = {
+                        val code = promoText.lowercase()
+                        if (code == "test" || code == "test2") {
+                            promoApplied = true
+                            promoCode = promoText
+                        }
+                    },
                     shape = RoundedCornerShape(30),
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF4CE14))
                 ) {
@@ -188,7 +201,7 @@ fun OrderSummaryScreen(navController: NavHostController) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = stringResource(R.string.promo_code) + ": TEST")
+                Text(text = stringResource(R.string.promo_code) + ": " + (promoCode?.uppercase() ?: ""))
                 IconButton(onClick = { showRemoveDialog = true }) {
                     Icon(
                         imageVector = Icons.Default.Delete,
@@ -205,6 +218,7 @@ fun OrderSummaryScreen(navController: NavHostController) {
                     TextButton(onClick = {
                         promoApplied = false
                         promoText = ""
+                        promoCode = null
                         showRemoveDialog = false
                     }) { Text(stringResource(R.string.remove)) }
                 },
